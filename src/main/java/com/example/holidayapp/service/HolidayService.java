@@ -1,9 +1,20 @@
 package com.example.holidayapp.service;
 
+import static java.util.Objects.isNull;
+
 import com.example.holidayapp.exception.HolidayApiException;
 import com.example.holidayapp.model.CountryHolidaysDto;
 import com.example.holidayapp.model.HolidayCountPerCountryDto;
 import com.example.holidayapp.model.HolidayDto;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
@@ -11,19 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 /**
  * Holiday Service for all holiday related responses.
@@ -51,8 +49,9 @@ public class HolidayService {
         int currentYear = LocalDate.now().getYear();
         HolidayDto[] holidayDtoList = getHolidayDtos(currentYear, countryCode);
         if (isNull(holidayDtoList)) {
-            log.error(STR."External API is not returning any data for country code:\{countryCode}");
-            throw new HolidayApiException(STR."External API is not returning any data for country code:\{countryCode}");
+            log.error("External API is not returning any data for country code:%s".formatted(countryCode));
+            throw new HolidayApiException("External API is not returning any data for country code:"
+                    + countryCode);
         }
         return Arrays.stream(holidayDtoList)
                 .filter(holidayDto -> holidayDto.getDate() != null)
@@ -94,8 +93,8 @@ public class HolidayService {
         if (isNull(holidayDtoForFirst) || isNull(holidayDtoForSecond)) {
             log.error("External API is not returning any data for country code " + countryFirst
                     + "or" + countrySecond);
-            throw new HolidayApiException(STR."External API is not returning any" +
-                    STR."data for country code or \{countryFirst}or\{countrySecond}");
+            throw new HolidayApiException("External API is not returning any" +
+                    "data for country code or " + countryFirst + "or" + countrySecond);
         }
         Map<LocalDate, HolidayDto> mapFirst = Arrays.stream(holidayDtoForFirst)
                 .collect(Collectors.toMap(HolidayDto::getDate, Function.identity()));

@@ -30,8 +30,7 @@ public class HolidayDtoFactory {
         h5.setDate(LocalDate.now().plusDays(5));
         h5.setLocalName("Holiday5");
         h5.setCountryCode("AT");
-        HolidayDto[] list = new HolidayDto[] {h1,h2,h3,h4,h5};
-        return list;
+        return new HolidayDto[] {h1,h2,h3,h4,h5};
     }
 
     public static HolidayDto[] getHolidayDtoForCountryCodeDeCount() {
@@ -43,8 +42,7 @@ public class HolidayDtoFactory {
         h2.setDate(LocalDate.of(2025,7,5));
         h2.setCountryCode("DE");
 
-        HolidayDto[] list = new HolidayDto[] {h1,h2};
-        return list;
+        return new HolidayDto[] {h1,h2};
     }
 
     public static HolidayDto[] getHolidayDtoForCountryCodeFrCount() {
