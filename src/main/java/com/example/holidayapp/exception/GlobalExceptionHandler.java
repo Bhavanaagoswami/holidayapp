@@ -1,35 +1,37 @@
 package com.example.holidayapp.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * Global exception handler.
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleException(Exception ex) {
         HashMap<String, String> map = new HashMap<>();
         map.put("message", ex.getMessage());
-        map.put("status", ex.getClass().getSimpleName());
+        map.put("error", "Internal Server Error");
+        map.put("timestamp", String.valueOf(LocalDateTime.now()));
         return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    @ExceptionHandler(HolidayApiException.class)
+    public ResponseEntity<Map<String, String>> handleApiExceptions(HolidayApiException ex) {
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage()));
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        errors.put("message", ex.getMessage());
+        errors.put("error", "Holiday API Error");
+        errors.put("timestamp", String.valueOf(LocalDateTime.now()));
+        return new ResponseEntity<>(errors, HttpStatus.BAD_GATEWAY);
     }
 
 

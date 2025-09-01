@@ -52,18 +52,21 @@ public class HolidayDtoFactory {
         h1.setDate(LocalDate.of(2025,7,5));
         h1.setCountryCode("FR");
 
-        HolidayDto[] list = new HolidayDto[] {h1};
-        return list;
+        return new HolidayDto[] {h1};
     }
 
     public static HolidayDto[] getHolidayDtoForDe() {
         LocalDate date = LocalDate.of(2025, 12,25);
 
-        HolidayDto deHoliday = new HolidayDto();
-        deHoliday.setDate(date);
-        deHoliday.setLocalName("Epiphany");
+        HolidayDto deHoliday1 = new HolidayDto();
+        deHoliday1.setDate(date);
+        deHoliday1.setLocalName("Epiphany");
 
-        return new HolidayDto[] {deHoliday,deHoliday};
+        HolidayDto deHoliday2 = new HolidayDto();
+        deHoliday2.setDate(LocalDate.now());
+        deHoliday2.setLocalName("Novel");
+
+        return new HolidayDto[] {deHoliday1, deHoliday2};
     }
 
     public static HolidayDto[] getHolidayDtoForFr() {
@@ -73,8 +76,7 @@ public class HolidayDtoFactory {
         frHoliday.setDate(date);
         frHoliday.setLocalName("Fête du Travail");
 
-        HolidayDto[] list = new HolidayDto[] {frHoliday};
-        return list;
+        return new HolidayDto[] {frHoliday};
     }
 
     public static HolidayDto[] last3HolidaysResponse() {
@@ -92,13 +94,22 @@ public class HolidayDtoFactory {
         h3.setDate(LocalDate.now().minusDays(22));
         h3.setLocalName("Holiday3");
         h3.setCountryCode("AT");
-        HolidayDto[] list = new HolidayDto[] {h1,h2,h3};
-        return list;
+        return new HolidayDto[] {h1,h2,h3};
     }
 
     public static List<HolidayCountPerCountryDto> countHolidaysWithOutWeekend() {
-        HolidayCountPerCountryDto h1 = new HolidayCountPerCountryDto("DE", 1);
-        HolidayCountPerCountryDto h2 = new HolidayCountPerCountryDto("FE", 1);
+        HolidayCountPerCountryDto h1 = new HolidayCountPerCountryDto("DE", 10);
+        HolidayCountPerCountryDto h2 = new HolidayCountPerCountryDto("FR", 5);
+        return List.of(h1, h2);
+    }
+
+    public static List<CountryHolidaysDto> commonHolidays() {
+        CountryHolidaysDto h1 = new CountryHolidaysDto(LocalDate.of(2025,4,22),
+                "New Year event",
+                "Passe");
+        CountryHolidaysDto h2 = new CountryHolidaysDto(LocalDate.of(2025,1,1),
+                "New Year event",
+                "Halloween event");
         return List.of(h1, h2);
     }
 

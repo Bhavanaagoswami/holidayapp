@@ -1,0 +1,14 @@
+server:
+  error:
+    include-exception: 'true'
+  port: '8086'
+spring:
+  application:
+    name: holidayapp
+springdoc:
+  swagger-ui:
+    enabled: 'true'
+holidayapp:
+  external:
+    api:
+      base_url: 'https://date.nager.at/Api/v3/PublicHolidays'

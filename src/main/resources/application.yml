@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: holidayapp
+server:
+  port: '8086'
+springdoc:
+  swagger-ui:
+    enabled: 'true'
+holidayapp:
+  external:
+    api:
+      base_url: 'https://date.nager.at/Api/v3/PublicHolidays'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics, prometheus
+  endpoint:
+    health:
+      show-details: always
+
+
