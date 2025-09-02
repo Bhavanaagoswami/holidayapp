@@ -1,0 +1,58 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Holiday API Monitoring",
+    "timezone": "browser",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "API Request Rate",
+        "targets": [
+          {
+            "expr": "sum(rate(http_server_requests_seconds_count[1m])) by (uri)",
+            "legendFormat": "{{uri}}"
+          }
+        ],
+        "id": 1
+      },
+      {
+        "type": "graph",
+        "title": "API Latency (95th percentile)",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket[5m])) by (le, uri))",
+            "legendFormat": "{{uri}}"
+          }
+        ],
+        "id": 2
+      },
+      {
+        "type": "graph",
+        "title": "Error Rate (4xx / 5xx)",
+        "targets": [
+          {
+            "expr": "sum(rate(http_server_requests_seconds_count{status=~\"4..\"}[1m]))",
+            "legendFormat": "4xx"
+          },
+          {
+            "expr": "sum(rate(http_server_requests_seconds_count{status=~\"5..\"}[1m]))",
+            "legendFormat": "5xx"
+          }
+        ],
+        "id": 3
+      },
+      {
+        "type": "singlestat",
+        "title": "Uptime",
+        "targets": [
+          {
+            "expr": "time() - process_start_time_seconds"
+          }
+        ],
+        "id": 4
+      }
+    ],
+    "schemaVersion": 16,
+    "version": 1
+  }
+}

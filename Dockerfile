@@ -11,4 +11,4 @@ COPY target/holidayService-0.0.1-SNAPSHOT.jar holiday-service.jar
 EXPOSE 8086
 
 # Run the JAR file
-ENTRYPOINT ["java", "-jar", "holiday-service.jar"]
+ENTRYPOINT ["java", "--enable-preview", "-jar", "holiday-service.jar"]

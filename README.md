@@ -43,6 +43,10 @@ First, navigate to the `src` directory:
 
 run Holidayapp using default application.properties.
 
+or
+
+ run dockerfile
+
 ### Monitoring 
 Added actuator api to check the health, metrics and prometheus of the application.
 http://localhost:8086/actuator/health
@@ -54,7 +58,7 @@ after running the app in container run:
 docker-compose up -d
 
 From generated metrics , save the holiday-dashboard.json and import it into grafana UI.
-
+(I have copied one of the json in repo)
 and open grafana dashboard using http://localhost:3000
 Login admin /admin
 
